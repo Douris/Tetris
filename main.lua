@@ -127,6 +127,8 @@ Tetros[7] = {
 local currentTetros = 1
 local currentRotation = 1
 
+local Grid = {}
+
 function love.load()
     screen_width = love.graphics.getWidth()
     screen_heigth = love.graphics.getHeight()
@@ -143,7 +145,10 @@ function love.draw()
             local x = (c - 1) * 32
             local y = (l - 1) * 32
             if Shape[l][c] == 1 then
-                love.graphics.setColor(255, 255, 255)
+                love.graphics.setColor(1, 1, 1)
+                love.graphics.rectangle("fill", x, y, 31, 31)
+            else
+                love.graphics.setColor(1, 1, 1, .25)
                 love.graphics.rectangle("fill", x, y, 31, 31)
             end
         end
