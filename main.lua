@@ -128,10 +128,47 @@ local currentTetros = 1
 local currentRotation = 1
 
 local Grid = {}
+Grid.offsetX = 0
+Grid.width = 10
+Grid.height = 20
+Grid.cellSize = 0
+Grid.cells = {}
+
+function InitGrid()
+    local h = screen_height / Grid.height
+    Grid.cellSize = h
+    Grid.offsetX = (screen_width / 2) - ((Grid.cellSize * Grid.width) / 2)
+    Grid.offsetY = 0
+    Grid.cells = {}
+    for l = 1, Grid.height do
+        Grid.cells[l] = {}
+        for c = 1, Grid.width do
+            Grid.cells[l][c] = 0
+        end
+    end
+end
+
+function DrawGrid()
+    local h = Grid.cellSize
+    local w = h
+    local x, y
+    love.graphics.setColor(1, 1, 1, 0.2)
+    for l = 1, Grid.height do
+        for c = 1, Grid.width do
+            x = (c - 1) * w
+            y = (l - 1) * h
+            x = x + Grid.offsetX
+            y = y + Grid.offsetY
+            love.graphics.rectangle("fill", x, y, w - 1, h - 1)
+        end
+    end
+end
 
 function love.load()
     screen_width = love.graphics.getWidth()
-    screen_heigth = love.graphics.getHeight()
+    screen_height = love.graphics.getHeight()
+
+    InitGrid()
 end
 
 function love.update(dt)
@@ -153,6 +190,8 @@ function love.draw()
             end
         end
     end
+
+    DrawGrid()
 end
 
 function love.keypressed(key)
